@@ -1,0 +1,14 @@
+<%= render partial: 'spree/admin/shared/error_messages', locals: { target: @product_import } %>
+
+<% content_for :page_title do %>
+    <%= Spree.t(:new) + ' ' + Spree.t(:bulk_product_edit) %>
+<% end %>
+
+<%= form_for( [:admin, @bulk_product_edit] )do |f| %>
+    <fieldset data-hook="bulk_product_edit">
+      <%= render partial: 'form', locals: { f: f } %>
+    </fieldset>
+    <div class="form-actions">
+      <%= render partial: 'spree/admin/shared/new_resource_links' %>
+    </div>
+<% end %>

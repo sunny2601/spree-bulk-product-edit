@@ -1,0 +1,23 @@
+<% content_for :page_title do %>
+    <%= link_to Spree.t(:bulk_product_edits), admin_bulk_product_edits_path %> / <%= @bulk_product_edit.name %>
+<% end %>
+
+<% content_for :sidebar do %>
+    <ul class="nav nav-pills nav-stacked" data-hook="admin_product_import_tabs">
+      <%= content_tag :li, class: ('active' if current == :details) do %>
+          <%= link_to_with_icon 'edit', Spree.t(:details), spree.edit_admin_bulk_product_edit_url(@bulk_product_edit) %>
+      <% end if can?(:admin, Spree::BulkProductEdit) %>
+
+      <%= content_tag :li, class: ('active' if current == :products) do %>
+          <%= link_to_with_icon 'th-large', Spree.t(:products), spree.admin_bulk_product_edit_bulk_product_edit_items_url(@bulk_product_edit) %>
+      <% end if can?(:admin, Spree::BulkProductEditItem) %>
+
+      <%#= content_tag :li, class: ('active' if current == :product_import_image_locations) do %>
+          <%#= link_to_with_icon 'picture', Spree.t(:image_locations), spree.admin_product_import_product_import_image_locations_url(@bulk_product_edit) %>
+      <%# end if can?(:admin, Spree::ProductImportItem) %>
+
+      <%#= content_tag :li, class: ('active' if current == :product_import_items) do %>
+          <%#= link_to_with_icon 'certificate', Spree.t(:import_items), spree.admin_product_import_product_import_items_url(@bulk_product_edit) %>
+      <%# end if can?(:admin, Spree::ProductImportItem) %>
+    </ul>
+<% end %>

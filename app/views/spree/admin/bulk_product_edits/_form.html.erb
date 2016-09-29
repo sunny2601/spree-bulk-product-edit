@@ -1,0 +1,4 @@
+<%= f.field_container :name, class: ['form-group'] do %>
+    <%= f.label :name, Spree.t(:name) %> <span class="required">*</span>
+    <%= f.text_field :name, :required => true, :class => 'form-control' %>
+<% end %>

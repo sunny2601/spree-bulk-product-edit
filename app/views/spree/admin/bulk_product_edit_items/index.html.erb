@@ -1,0 +1,32 @@
+<%= render partial: 'spree/admin/shared/bulk_product_edits_tabs', locals: { current: :products } %>
+
+<%= debug params %>
+
+<%= render partial: 'spree/admin/shared/index_table_options', locals: { collection: @collection } %>
+
+<% if @collection.any? %>
+    <table class="table" id='bulk_product_edit_items' data-hook>
+      <thead>
+      <tr data-hook="bulk_product_edit_items_header">
+        <th class="name"><%= Spree.t(:name) %></th>
+        <th class="created_at"><%= Spree.t(:created_at) %></th>
+        <th class="actions"></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @collection.each do |item| %>
+          <tr>
+            <td class="name"><%= item.name %></td>
+            <td class="created_at"><%= item.created_at.to_date %></td>
+            <td class="actions actions-2 text-right">
+              <%#= link_to_edit(item, :no_text => true) %>
+              <%#= link_to_delete(item, :no_text => true) %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% end %>
+
+<%= render partial: 'spree/admin/shared/index_table_options', locals: { collection: @collection } %>
