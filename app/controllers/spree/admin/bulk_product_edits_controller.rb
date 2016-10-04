@@ -23,7 +23,7 @@ module Spree
         @search = @collection.ransack(params[:q])
         @collection = @search.result.
             page(params[:page]).
-            per(params[:per_page] || Spree::BulkProductEdit.admin_bulk_product_edits_per_page)
+            per(params[:per_page] || SpreeBulkProductEdit.configuration.admin_bulk_product_edits_per_page)
         @collection
       end
 
