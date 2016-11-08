@@ -9,7 +9,7 @@
       <% end if can?(:admin, Spree::BulkProductEdit) %>
 
       <%= content_tag :li, class: ('active' if current == :products) do %>
-          <%= link_to_with_icon 'th-large', Spree.t(:products), spree.admin_bulk_product_edit_bulk_product_edit_items_url(@bulk_product_edit) %>
+          <%= link_to_with_icon 'th-large', Spree.t(:select_products), spree.admin_bulk_product_edit_bulk_product_edit_items_url(@bulk_product_edit) %>
       <% end if can?(:admin, Spree::BulkProductEditItem) %>
 
       <%#= content_tag :li, class: ('active' if current == :product_import_image_locations) do %>
