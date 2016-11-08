@@ -14,6 +14,8 @@ module Spree
         params[:product_ids].each do |id|
           Spree::BulkProductEditItem.create({ product_id: id, bulk_product_edit_id: params[:bulk_product_edit_id] })
         end
+
+        flash[:success] = 'Product list updated'
         redirect_to admin_bulk_product_edit_bulk_product_edit_items_path params[:bulk_product_edit_id]
       end
 
