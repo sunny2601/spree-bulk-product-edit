@@ -1,11 +1,22 @@
 <%= render partial: 'spree/admin/shared/bulk_product_edits_tabs', locals: { current: :products } %>
 
 <script type="text/javascript">
+  function setAllChecked() {
+    $('#product_ids_all').prop('checked', ($('#bulk_product_edit_items_body input[type="checkbox"]:checked').length == $('#bulk_product_edit_items_body input[type="checkbox"]').length));
+  }
+
   $(function(){
+    setAllChecked();
 
     $('#product_ids_all').click(function(){
       input_name = 'product_ids[]';
       $('input[name="'+input_name+'"]').prop('checked', $(this).is(':checked'));
+    });
+
+    // Dynamically inserted checkboxes don't have a ckick event, we have to look at the container
+    $('#bulk_product_edit_items_body').on('click', ':checkbox', function(){
+      setAllChecked();
+      //$(this).trigger('focus');
     });
 
     $('#product_taxon_ids').change(function(e){
@@ -34,7 +45,9 @@
                   .replace(/SELECTED/, (ref[i]['selected'] ? ' checked' : ''))
                   .replace(/PRODUCT_NAME/, ref[i]['name']);
             }
-            return display_area.html(rows);
+            display_area.html(rows);
+            setAllChecked();
+            return;
           }
         }
       });
