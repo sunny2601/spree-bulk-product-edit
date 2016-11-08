@@ -12,10 +12,12 @@ module SpreeBulkProductEdit
   end
 
   class Configuration
-    attr_accessor :admin_bulk_product_edits_per_page
+    attr_accessor :admin_edits_per_page
+    attr_accessor :admin_edit_items_per_page
 
     def initialize
-      @surcharge_amount = 0
+      @admin_edits_per_page = 30
+      @admin_edit_items_per_page = 30
     end
   end
 end

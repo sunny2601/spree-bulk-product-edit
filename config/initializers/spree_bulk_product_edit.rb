@@ -1,3 +1,4 @@
 SpreeBulkProductEdit.configure do |config|
-  config.admin_bulk_product_edits_per_page = 15
+  config.admin_edits_per_page = 30
+  config.admin_edit_items_per_page = 30
 end
