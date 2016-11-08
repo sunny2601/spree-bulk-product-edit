@@ -5,3 +5,4 @@ en:
   spree:
     bulk_product_edit: 'Bulk Product Edit'
     bulk_product_edits: 'Bulk Product Edits'
+    select_products: 'Select Products'
