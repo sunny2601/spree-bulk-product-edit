@@ -1,5 +1,5 @@
 Deface::Override.new(
-    :original => 'c782fadd3d631a2b4057029ff0a67bf9b9f9df80',
+    :original => '1ff398339f1a03870dde177213dd042b67365c56',
     :virtual_path => 'spree/layouts/admin',
     :name => 'add_bulk_product_edit_to_admin_menu',
     :insert_bottom => '[data-hook="admin_tabs"]',
