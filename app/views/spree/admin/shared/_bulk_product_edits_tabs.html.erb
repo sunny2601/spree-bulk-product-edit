@@ -12,9 +12,13 @@
           <%= link_to_with_icon 'th-large', Spree.t(:select_products), spree.admin_bulk_product_edit_bulk_product_edit_items_url(@bulk_product_edit) %>
       <% end if can?(:admin, Spree::BulkProductEditItem) %>
 
-      <%#= content_tag :li, class: ('active' if current == :product_import_image_locations) do %>
-          <%#= link_to_with_icon 'picture', Spree.t(:image_locations), spree.admin_product_import_product_import_image_locations_url(@bulk_product_edit) %>
-      <%# end if can?(:admin, Spree::ProductImportItem) %>
+      <%= content_tag :li, class: ('active' if current == :product_details) do %>
+          <%= link_to_with_icon 'pushpin', Spree.t(:product_details), product_details_admin_bulk_product_edit_bulk_product_edit_items_path(@bulk_product_edit) %>
+      <% end if can?(:admin, Spree::BulkProductEditItem) %>
+
+      <%= content_tag :li, class: ('active' if current == :product_properties) do %>
+          <%= link_to_with_icon 'list-alt', Spree.t(:product_properties), product_properties_admin_bulk_product_edit_bulk_product_edit_items_path(@bulk_product_edit) %>
+      <% end if can?(:admin, Spree::BulkProductEditItem) %>
 
       <%#= content_tag :li, class: ('active' if current == :product_import_items) do %>
           <%#= link_to_with_icon 'certificate', Spree.t(:import_items), spree.admin_product_import_product_import_items_url(@bulk_product_edit) %>

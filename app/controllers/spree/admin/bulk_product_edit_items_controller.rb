@@ -19,6 +19,14 @@ module Spree
         redirect_to admin_bulk_product_edit_bulk_product_edit_items_path params[:bulk_product_edit_id]
       end
 
+      def product_details_form
+
+      end
+
+      def product_details_update
+
+      end
+
       private
 
       def load_bulk_product_edit
