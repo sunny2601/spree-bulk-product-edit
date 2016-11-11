@@ -13,10 +13,9 @@
       $('input[name="'+input_name+'"]').prop('checked', $(this).is(':checked'));
     });
 
-    // Dynamically inserted checkboxes don't have a ckick event, we have to look at the container
-    $('#bulk_product_edit_items_body').on('click', ':checkbox', function(){
+    // Dynamically inserted checkboxes don't have a click event, we have to look at the container
+    $('#bulk_product_edit_items_body').on('click', ':checkbox', function() {
       setAllChecked();
-      //$(this).trigger('focus');
     });
 
     $('#product_taxon_ids').change(function(e){
@@ -37,6 +36,7 @@
                 '<td><input type="checkbox" name="product_ids[]" value="PRODUCT_ID"SELECTED></td>' +
                 '<td>PRODUCT_ID</td>' +
                 '<td>PRODUCT_NAME</td>' +
+                '<td><a name="View" class="btn btn-primary btn-sm icon-link with-tip action-eye-open no-text" target="_blank" href="/products/PRODUCT_ID"><span class="icon icon-eye-open"></span> </a></td>' +
                 '</tr>';
             ref = data.products;
             rows = '';
@@ -47,6 +47,20 @@
             }
             display_area.html(rows);
             setAllChecked();
+
+            // Dynamically inserted checkboxes don't have a click event, we have to look at the container
+            $('#bulk_product_edit_items_body').on('click', ':checkbox', function(){
+
+              if (!$(this).is(':checked')) {
+                $('#bulk_product_edit_items_header').removeClass('order-selected');
+                $('#bulk_product_edit_items_body tr').removeClass('order-selected');
+                $(this).closest('tr').addClass('order-selected');
+              } else {
+                $(this).closest('tr').removeClass('order-selected');
+              }
+
+            });
+
             return;
           }
         }
@@ -63,10 +77,11 @@
 <%= form_tag admin_bulk_product_edit_bulk_product_edit_items_path(@bulk_product_edit) do %>
   <table class="table" id="bulk_product_edit_items" data-hook>
     <thead>
-    <tr data-hook="bulk_product_edit_items_header">
+    <tr id="bulk_product_edit_items_header" data-hook="bulk_product_edit_items_header">
       <th><%= check_box_tag 'all_product_ids', 'all', false, { id: 'product_ids_all' } %></th>
-      <th><%= Spree.t(:product_id) %></th>
+      <th class="product_id"><%= Spree.t(:product_id) %></th>
       <th class="name"><%= Spree.t(:name) %></th>
+      <th class="actions"></th>
     </tr>
     </thead>
 
@@ -76,7 +91,10 @@
           <td><%= check_box_tag 'product_ids[]', item['id'], true, { id: "product_ids_#{item['id']}" } %></td>
           <td><%= item['id'] %></td>
           <td><%= item['name'] %>
-        </td>
+          <td class="actions">
+            <%= link_to_with_icon('eye-open', nil, product_url(item['id']), { :name => 'View', :no_text => true, :class => 'btn btn-primary btn-sm', :target => '_blank' }) %>
+          </td>
+        </tr>
       <% end unless @collection.nil? %>
     </tbody>
   </table>
