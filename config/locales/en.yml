@@ -6,3 +6,5 @@ en:
     bulk_product_edit: 'Bulk Product Edit'
     bulk_product_edits: 'Bulk Product Edits'
     select_products: 'Select Products'
+    product_price: 'Product Price'
+    sample_price: 'Sample Price'
