@@ -33,7 +33,8 @@ module Spree
         end
 
         def products_by_sku
-          products = Spree::Product.includes(master: [:images]).where(id: Spree::Variant.where(sku: params[:identifiers]).pluck(:product_id))
+          skus = params[:identifiers]
+          products = Spree::Product.includes(master: [:images]).where(id: Spree::Variant.where(sku: skus).pluck(:product_id))
           format_for_list products, false
         end
 
