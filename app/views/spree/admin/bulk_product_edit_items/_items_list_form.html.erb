@@ -7,6 +7,7 @@
         <th><%= check_box_tag 'all_product_ids', 'all', false, { id: 'product_ids_all' } %></th>
         <th class="product_id"><%= Spree.t(:product_id) %></th>
         <th class="sku"><%= Spree.t(:sku) %></th>
+        <th class="image"><%= Spree.t(:thumbnail) %></th>
         <th class="name"><%= Spree.t(:name) %></th>
         <th class="actions"></th>
       </tr>
@@ -16,9 +17,10 @@
       <% @collection.each do |item| %>
           <tr>
             <td><%= check_box_tag 'product_ids[]', item['id'], true, { id: "product_ids_#{item['id']}" } %></td>
-            <td><%= item['id'] %></td>
-            <td><%= item.master['sku'] %></td>
-            <td><%= item['name'] %>
+            <td class="product_id"><%= item['id'] %></td>
+            <td class="sku"><%= item.master['sku'] %></td>
+            <td class="image"><%= mini_image item %></td>
+            <td class="name"><%= item['name'] %>
             <td class="actions">
               <%= link_to_with_icon('eye-open', nil, product_url(item['id']), { :name => 'View', :no_text => true, :class => 'btn btn-primary btn-sm', :target => '_blank' }) %>
             </td>

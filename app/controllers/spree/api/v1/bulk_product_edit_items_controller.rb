@@ -25,22 +25,22 @@ module Spree
           taxon_ids = params[:identifiers]
           products = []
           Spree::Taxon.where(id: taxon_ids).each do |taxon|
-            base_taxon_products = taxon.products.includes(:master)
-            children_taxon_products = taxon.children.includes(products: [:master]).map(&:products).flatten.compact.uniq
+            base_taxon_products = taxon.products.includes(master: [:images])
+            children_taxon_products = taxon.children.includes(products: [master: [:images]]).map(&:products).flatten.compact.uniq
             products += (base_taxon_products + children_taxon_products).uniq
           end
           format_for_list products, false
         end
 
         def products_by_sku
-          products = Spree::Product.includes(:master).where(id: Spree::Variant.where(sku: params[:identifiers]).pluck(:product_id))
+          products = Spree::Product.includes(master: [:images]).where(id: Spree::Variant.where(sku: params[:identifiers]).pluck(:product_id))
           format_for_list products, false
         end
 
         def selected_products
           bulk_product_edit_id = params[:bulk_product_edit_id]
           product_ids = Spree::BulkProductEditItem.where(bulk_product_edit_id: bulk_product_edit_id).pluck(:product_id)
-          products = Spree::Product.includes(:master).where(id: product_ids)
+          products = Spree::Product.includes(master: [:images]).where(id: product_ids)
           format_for_list products, true
         end
 
@@ -50,6 +50,7 @@ module Spree
             attrs = p.attributes
             attrs[:sku] = p.master.sku
             attrs[:selected] = selected
+            attrs[:thumbnail] = "https://dywimages.s3.amazonaws.com/spree/images/#{p.master.images[0].id}/mini/#{p.master.images[0].attachment_file_name}.?#{rand(999999999)}"
             out << attrs
           end
           out

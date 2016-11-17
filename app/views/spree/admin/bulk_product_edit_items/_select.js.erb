@@ -35,18 +35,20 @@ function populateRows(data) {
 function formatRows(products) {
   template = '<tr>' +
       '<td><input type="checkbox" name="product_ids[]" value="PRODUCT_ID"SELECTED></td>' +
-      '<td>PRODUCT_ID</td>' +
-      '<td>PRODUCT_SKU</td>' +
-      '<td>PRODUCT_NAME</td>' +
-      '<td><a name="View" class="btn btn-primary btn-sm icon-link with-tip action-eye-open no-text" target="_blank" href="/products/PRODUCT_ID"><span class="icon icon-eye-open"></span> </a></td>' +
+      '<<td class="product_id">PRODUCT_ID</td>' +
+      '<<td class="sku">PRODUCT_SKU</td>' +
+      '<td class="image"><img src="PRODUCT_THUMBNAIL"></td>' +
+      '<td class="name">PRODUCT_NAME</td>' +
+      '<td class="actions"><a name="View" class="btn btn-primary btn-sm icon-link with-tip action-eye-open no-text" target="_blank" href="/products/PRODUCT_ID"><span class="icon icon-eye-open"></span> </a></td>' +
       '</tr>';
 
   rows = '';
   for (i = 0, len = products.length; i < len; i++) {
     rows +=  template.replace(/PRODUCT_ID/g, products[i]['id'])
-    .replace(/SELECTED/, (products[i]['selected'] ? ' checked' : ''))
-    .replace(/PRODUCT_SKU/, products[i]['sku'])
-    .replace(/PRODUCT_NAME/, products[i]['name']);
+        .replace(/SELECTED/, (products[i]['selected'] ? ' checked' : ''))
+        .replace(/PRODUCT_SKU/, products[i]['sku'])
+        .replace(/PRODUCT_THUMBNAIL/, products[i]['thumbnail'])
+        .replace(/PRODUCT_NAME/, products[i]['name']);
   }
   return rows;
 }
@@ -83,7 +85,7 @@ $(function(){
     });
   <% else %>
     $('#product_skus').change(function(){
-      getProductData('sku', $(this).val());
+      getProductData('sku', $(this).val().split(','));
     });
   <% end %>
 });

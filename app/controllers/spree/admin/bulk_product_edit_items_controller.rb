@@ -6,7 +6,7 @@ module Spree
 
       def index
         product_ids = Spree::BulkProductEditItem.where(bulk_product_edit: @bulk_product_edit).pluck(:product_id)
-        @collection = Spree::Product.includes(:master).where(id: product_ids).order(:name)
+        @collection = Spree::Product.includes(master: [:images]).where(id: product_ids).order(:name)
 
         case params[:select_by]
           when 'taxon'
