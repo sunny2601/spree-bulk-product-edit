@@ -22,7 +22,7 @@ module Spree
         private
 
         def products_by_taxon
-          taxon_ids = params[:taxon_ids]
+          taxon_ids = params[:identifiers]
           products = []
           Spree::Taxon.where(id: taxon_ids).each do |taxon|
             base_taxon_products = taxon.products.includes(:master)
@@ -33,7 +33,7 @@ module Spree
         end
 
         def products_by_sku
-          products = Spree::Product.includes(:master).where(id: Spree::Variant.where(sku: params[:skus]).pluck(:product_id))
+          products = Spree::Product.includes(:master).where(id: Spree::Variant.where(sku: params[:identifiers]).pluck(:product_id))
           format_for_list products, false
         end
 

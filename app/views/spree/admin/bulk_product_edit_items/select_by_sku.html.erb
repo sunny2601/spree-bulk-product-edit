@@ -1,78 +1,7 @@
 <%= render partial: 'spree/admin/shared/bulk_product_edits_tabs', locals: { current: :products_by_sku } %>
 
 <script type="text/javascript">
-  function setAllChecked() {
-    $('#product_ids_all').prop('checked', ($('#bulk_product_edit_items_body input[type="checkbox"]:checked').length == $('#bulk_product_edit_items_body input[type="checkbox"]').length));
-  }
-
-  $(function(){
-    setAllChecked();
-
-    $('#product_ids_all').click(function(){
-      input_name = 'product_ids[]';
-      $('input[name="'+input_name+'"]').prop('checked', $(this).is(':checked'));
-    });
-
-    // Dynamically inserted checkboxes don't have a click event, we have to look at the container
-    $('#bulk_product_edit_items_body').on('click', ':checkbox', function() {
-      setAllChecked();
-    });
-
-    $('#product_skus').change(function(){
-
-      var skus = $(this).val();
-      var display_area = $('#bulk_product_edit_items_body');
-
-      $.ajax({
-        url: '<%= api_v1_bulk_product_edit_items_products_for_selection_path %>',
-        data: {
-          bulk_product_edit_id: <%= @bulk_product_edit.id %>,
-          select_by: 'sku',
-          skus: skus.split(','),
-          token: Spree.api_key
-        },
-        success: function(data) {
-          display_area.empty();
-          if (data.products.length === 0) {
-            // return display_area.html("<div class='alert alert-info'>" + Spree.translations.no_results + "</div>");
-          } else {
-            template = '<tr>' +
-                '<td><input type="checkbox" name="product_ids[]" value="PRODUCT_ID"SELECTED></td>' +
-                '<td>PRODUCT_ID</td>' +
-                '<td>PRODUCT_SKU</td>' +
-                '<td>PRODUCT_NAME</td>' +
-                '<td><a name="View" class="btn btn-primary btn-sm icon-link with-tip action-eye-open no-text" target="_blank" href="/products/PRODUCT_ID"><span class="icon icon-eye-open"></span> </a></td>' +
-                '</tr>';
-            ref = data.products;
-            rows = '';
-            for (i = 0, len = ref.length; i < len; i++) {
-              rows +=  template.replace(/PRODUCT_ID/g, ref[i]['id'])
-                  .replace(/SELECTED/, (ref[i]['selected'] ? ' checked' : ''))
-                  .replace(/PRODUCT_SKU/, ref[i]['sku'])
-                  .replace(/PRODUCT_NAME/, ref[i]['name']);
-            }
-            display_area.html(rows);
-            setAllChecked();
-
-            // Dynamically inserted checkboxes don't have a click event, we have to look at the container
-            $('#bulk_product_edit_items_body').on('click', ':checkbox', function(){
-
-              if (!$(this).is(':checked')) {
-                $('#bulk_product_edit_items_header').removeClass('order-selected');
-                $('#bulk_product_edit_items_body tr').removeClass('order-selected');
-                $(this).closest('tr').addClass('order-selected');
-              } else {
-                $(this).closest('tr').removeClass('order-selected');
-              }
-
-            });
-
-            return;
-          }
-        }
-      });
-    });
-  });
+  <%= render partial: 'spree/admin/bulk_product_edit_items/select', formats: :js, locals: { select_by: 'sku' } %>
 </script>
 
 <div class="form-group product_skus">
