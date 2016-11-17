@@ -8,8 +8,12 @@
           <%= link_to_with_icon 'edit', Spree.t(:details), spree.edit_admin_bulk_product_edit_url(@bulk_product_edit) %>
       <% end if can?(:admin, Spree::BulkProductEdit) %>
 
-      <%= content_tag :li, class: ('active' if current == :products) do %>
-          <%= link_to_with_icon 'th-large', Spree.t(:select_products), spree.admin_bulk_product_edit_bulk_product_edit_items_url(@bulk_product_edit) %>
+      <%= content_tag :li, class: ('active' if current == :products_by_taxon) do %>
+          <%= link_to_with_icon 'th-large', Spree.t(:select_products_by_taxon), select_by_taxon_admin_bulk_product_edit_bulk_product_edit_items_path(@bulk_product_edit) %>
+      <% end if can?(:admin, Spree::BulkProductEditItem) %>
+
+      <%= content_tag :li, class: ('active' if current == :products_by_sku) do %>
+          <%= link_to_with_icon 'th-large', Spree.t(:select_products_by_sku), select_by_sku_admin_bulk_product_edit_bulk_product_edit_items_path(@bulk_product_edit) %>
       <% end if can?(:admin, Spree::BulkProductEditItem) %>
 
       <%= content_tag :li, class: ('active' if current == :product_details) do %>

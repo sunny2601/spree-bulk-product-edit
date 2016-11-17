@@ -5,6 +5,9 @@ Spree::Core::Engine.routes.draw do
       resources :bulk_product_edit_items do
 
         collection do
+          get 'select_by_taxon', to: 'bulk_product_edit_items#index', defaults: { select_by: 'taxon' }
+          get 'select_by_sku', to: 'bulk_product_edit_items#index', defaults: { select_by: 'sku' }
+
           get 'product_details', to: 'bulk_product_edit_items#product_details_form'
           post 'product_details', to: 'bulk_product_edit_items#product_details_update'
 

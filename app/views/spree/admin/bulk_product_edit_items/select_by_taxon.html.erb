@@ -24,6 +24,7 @@
         url: '<%= api_v1_bulk_product_edit_items_products_for_selection_path %>',
         data: {
           bulk_product_edit_id: <%= @bulk_product_edit.id %>,
+          select_by: 'taxon',
           taxon_ids: e.val,
           token: Spree.api_key
         },
@@ -35,6 +36,7 @@
             template = '<tr>' +
                 '<td><input type="checkbox" name="product_ids[]" value="PRODUCT_ID"SELECTED></td>' +
                 '<td>PRODUCT_ID</td>' +
+                '<td>PRODUCT_SKU</td>' +
                 '<td>PRODUCT_NAME</td>' +
                 '<td><a name="View" class="btn btn-primary btn-sm icon-link with-tip action-eye-open no-text" target="_blank" href="/products/PRODUCT_ID"><span class="icon icon-eye-open"></span> </a></td>' +
                 '</tr>';
@@ -43,6 +45,7 @@
             for (i = 0, len = ref.length; i < len; i++) {
               rows +=  template.replace(/PRODUCT_ID/g, ref[i]['id'])
                   .replace(/SELECTED/, (ref[i]['selected'] ? ' checked' : ''))
+                  .replace(/PRODUCT_SKU/, ref[i]['sku'])
                   .replace(/PRODUCT_NAME/, ref[i]['name']);
             }
             display_area.html(rows);
@@ -74,34 +77,4 @@
   <%= hidden_field_tag "bulk_product_edit[taxon_ids_string]", '', class: "taxon_picker", id: 'product_taxon_ids' %>
 </div>
 
-<%= form_tag admin_bulk_product_edit_bulk_product_edit_items_path(@bulk_product_edit) do %>
-  <table class="table" id="bulk_product_edit_items" data-hook>
-    <thead>
-    <tr id="bulk_product_edit_items_header" data-hook="bulk_product_edit_items_header">
-      <th><%= check_box_tag 'all_product_ids', 'all', false, { id: 'product_ids_all' } %></th>
-      <th class="product_id"><%= Spree.t(:product_id) %></th>
-      <th class="name"><%= Spree.t(:name) %></th>
-      <th class="actions"></th>
-    </tr>
-    </thead>
-
-    <tbody id="bulk_product_edit_items_body">
-      <% @collection.each do |item| %>
-        <tr>
-          <td><%= check_box_tag 'product_ids[]', item['id'], true, { id: "product_ids_#{item['id']}" } %></td>
-          <td><%= item['id'] %></td>
-          <td><%= item['name'] %>
-          <td class="actions">
-            <%= link_to_with_icon('eye-open', nil, product_url(item['id']), { :name => 'View', :no_text => true, :class => 'btn btn-primary btn-sm', :target => '_blank' }) %>
-          </td>
-        </tr>
-      <% end unless @collection.nil? %>
-    </tbody>
-  </table>
-
-  <div class="form-actions" data-hook="buttons">
-    <%= button Spree.t('actions.select'), 'ok', 'submit', {class: 'btn-success', data: { disable_with: "#{ Spree.t(:saving) }..." }} %>
-    <span class="or"><%= Spree.t(:or) %></span>
-    <%= button_link_to Spree.t('actions.cancel'), admin_bulk_product_edits_url, icon: 'remove' %>
-  </div>
-<% end %>
+<%= render partial: 'spree/admin/bulk_product_edit_items/items_list_form', locals: { select_by: 'taxon' } %>

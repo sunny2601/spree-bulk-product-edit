@@ -6,7 +6,16 @@ module Spree
 
       def index
         product_ids = Spree::BulkProductEditItem.where(bulk_product_edit: @bulk_product_edit).pluck(:product_id)
-        @collection = Spree::Product.where(id: product_ids)
+        @collection = Spree::Product.includes(:master).where(id: product_ids).order(:name)
+
+        case params[:select_by]
+          when 'taxon'
+            render 'select_by_taxon'
+          when 'sku'
+            render 'select_by_sku'
+          else
+            render 'select_by_taxon'
+        end
       end
 
       def create
@@ -16,7 +25,13 @@ module Spree
         end
 
         flash[:success] = 'Product list updated'
-        redirect_to admin_bulk_product_edit_bulk_product_edit_items_path params[:bulk_product_edit_id]
+
+        case params[:select_by]
+          when 'taxon'
+            redirect_to select_by_taxon_admin_bulk_product_edit_bulk_product_edit_items_path params[:bulk_product_edit_id]
+          when 'sku'
+            redirect_to select_by_sku_admin_bulk_product_edit_bulk_product_edit_items_path params[:bulk_product_edit_id]
+        end
       end
 
       def product_details_form
@@ -25,7 +40,6 @@ module Spree
       end
 
       def product_details_update
-
         details = product_details
         @tmp = details
 
@@ -41,7 +55,6 @@ module Spree
       end
 
       def product_details
-
         details = {}
         details['product_price'] = params[:product_price] if is_number? params[:product_price]
         details['sample_price'] = params[:sample_price] if is_number? params[:sample_price]
@@ -55,7 +68,6 @@ module Spree
         details['country_of_origin'] = params[:country_of_origin] unless params[:country_of_origin].blank?
 
         details
-
       end
 
       def is_number? string
