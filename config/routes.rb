@@ -2,6 +2,12 @@ Spree::Core::Engine.routes.draw do
   namespace :admin do
     resources :bulk_product_edits do
 
+      resources :bulk_product_edit_properties do
+        collection do
+          post :update_positions
+        end
+      end
+
       resources :bulk_product_edit_items do
 
         collection do
@@ -10,9 +16,6 @@ Spree::Core::Engine.routes.draw do
 
           get 'product_details', to: 'bulk_product_edit_items#product_details_form'
           post 'product_details', to: 'bulk_product_edit_items#product_details_update'
-
-          get 'product_properties', to: 'bulk_product_edit_items#product_properties_form'
-          post 'product_properties', to: 'bulk_product_edit_items#product_properties_update'
         end
 
       end

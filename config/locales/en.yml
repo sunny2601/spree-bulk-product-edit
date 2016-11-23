@@ -10,4 +10,6 @@ en:
     enter_product_skus: 'Enter Comma-Separated List of Product SKUs'
     product_price: 'Product Price'
     sample_price: 'Sample Price'
+    sale_unit: 'Sale Unit'
+    country_of_origin: 'Country of Origin'
     saving: 'Saving'

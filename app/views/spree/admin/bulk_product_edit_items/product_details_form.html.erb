@@ -1,68 +1,68 @@
 <%= render partial: 'spree/admin/shared/bulk_product_edits_tabs', locals: { current: :product_details } %>
 
-<%= form_tag product_details_admin_bulk_product_edit_bulk_product_edit_items_path(@bulk_product_edit) do %>
+<%= form_for( [:admin, @bulk_product_edit] )do |f| %>
   <div data-hook="admin_bulk_product_edit_form_fields">
 
     <div class="row">
 
       <div class="col-md-4">
         <div data-hook="admin_bulk_product_edit_form_product_price">
-          <%= content_tag :div, id: 'product_price_field', class: 'form-group' do %>
-              <%= label_tag :product_price, Spree.t(:product_price) %>
-              <%= text_field_tag :product_price, nil, { class: 'form-control' } %>
+          <%= f.field_container :product_price, class: ['form-group'] do %>
+              <%= f.label :product_price, Spree.t(:product_price) %>
+              <%= f.text_field :product_price, class: 'form-control' %>
           <% end %>
         </div>
 
         <div data-hook="admin_bulk_product_edit_form_sample_price">
-          <%= content_tag :div, id: 'sample_price_field', class: 'form-group' do %>
-              <%= label_tag :sample_price, Spree.t(:sample_price) %>
-              <%= text_field_tag :sample_price, nil, { class: 'form-control' } %>
+          <%= f.field_container :sample_price, class: ['form-group'] do %>
+              <%= f.label :sample_price, Spree.t(:sample_price) %>
+              <%= f.text_field :sample_price, class: 'form-control' %>
           <% end %>
         </div>
       </div>
 
       <div class="col-md-4">
         <div data-hook="admin_bulk_product_edit_form_available_on">
-          <%= content_tag :div, id: 'available_on_field', class: 'form-group' do %>
-              <%= label_tag :available_on, Spree.t(:available_on) %>
-              <%= text_field_tag :available_on, nil, { class: 'datepicker form-control' } %>
+          <%= f.field_container :available_on, class: ['form-group'] do %>
+              <%= f.label :available_on, Spree.t(:available_on) %>
+              <%= f.text_field :available_on, class: 'datepicker form-control' %>
           <% end %>
         </div>
 
         <div data-hook="admin_bulk_product_edit_form_discontinue_on">
-          <%= content_tag :div, id: 'discontinue_on_field', class: 'form-group' do %>
-              <%= label_tag :discontinue_on, Spree.t(:discontinue_on) %>
-              <%= text_field_tag :discontinue_on, nil, { class: 'datepicker form-control' } %>
+          <%= f.field_container :discontinue_on, class: ['form-group'] do %>
+              <%= f.label :discontinue_on, Spree.t(:discontinue_on) %>
+              <%= f.text_field :discontinue_on, class: 'datepicker form-control' %>
           <% end %>
         </div>
       </div>
 
       <div class="col-md-4">
         <div data-hook="admin_bulk_product_edit_form_weight">
-          <%= content_tag :div, id: 'shipping_specs_weight_field', class: 'form-group' do %>
-              <%= label_tag :weight, Spree.t(:weight) %>
-              <%= text_field_tag :weight, nil, { size: 4, class: 'form-control' } %>
+          <%= f.field_container :weight, class: ['form-group'] do %>
+              <%= f.label :weight, Spree.t(:weight) %>
+              <%= f.text_field :weight, class: 'form-control' %>
           <% end %>
         </div>
 
         <div data-hook="admin_bulk_product_edit_form_height">
-          <%= content_tag :div, id: 'shipping_specs_height_field', class: 'form-group' do %>
-              <%= label_tag :height, Spree.t(:height) %>
-              <%= text_field_tag :height, nil, { size: 4, class: 'form-control' } %>
+          <%= f.field_container :height, class: ['form-group'] do %>
+              <%= f.label :height, Spree.t(:height) %>
+              <%= f.text_field :height, class: 'form-control' %>
           <% end %>
         </div>
 
         <div data-hook="admin_bulk_product_edit_form_width">
-          <%= content_tag :div, id: 'shipping_specs_width_field', class: 'form-group' do %>
-              <%= label_tag :width, Spree.t(:width) %>
-              <%= text_field_tag :width, nil, { size: 4, class: 'form-control' } %>
+          <%= f.field_container :width, class: ['form-group'] do %>
+              <%= f.label :width, Spree.t(:width) %>
+              <%= f.text_field :width, class: 'form-control' %>
           <% end %>
         </div>
 
         <div data-hook="admin_bulk_product_edit_form_depth">
-          <%= content_tag :div, id: 'shipping_specs_depth_field', class: 'form-group' do %>
-              <%= label_tag :depth, Spree.t(:depth) %>
-              <%= text_field_tag :depth, nil, { size: 4, class: 'form-control' } %>
+          <%= f.field_container :depth, class: ['form-group'] do %>
+              <%= f.label :depth, Spree.t(:depth) %>
+              <%= f.text_field :depth, class: 'form-control' %>
           <% end %>
         </div>
       </div>
@@ -73,16 +73,16 @@
 
       <div class="col-md-4">
         <div data-hook="admin_bulk_product_edit_form_sale_unit">
-          <%= content_tag :div, id: 'sale_unit_field', class: 'form-group' do %>
-              <%= label_tag :sale_unit, Spree.t(:sale_unit) %>
-              <%= select_tag :sale_unit_id, options_from_collection_for_select(@sale_units, 'id', 'name'), { include_blank: true, class: 'form-control' } %>
+          <%= f.field_container :sale_unit, class: ['form-group'] do %>
+              <%= f.label :sale_unit, Spree.t(:sale_unit) %>
+              <%= f.collection_select(:sale_unit_id, @sale_units, :id, :name, { include_blank: true }, { class: 'form-control' }) %>
           <% end %>
         </div>
 
         <div data-hook="admin_bulk_product_edit_form_country_of_origin">
-          <%= content_tag :div, id: 'country_of_origin_field', class: 'form-group' do %>
-              <%= label_tag :country_of_origin, Spree.t(:country_of_origin) %>
-              <%= select_tag :country_of_origin, options_from_collection_for_select(@countries, 'id', 'name'), { include_blank: true, class: 'form-control' } %>
+          <%= f.field_container :country_of_origin, class: ['form-group'] do %>
+              <%= f.label :country_of_origin, Spree.t(:country_of_origin) %>
+              <%= f.collection_select(:country_of_origin, @countries, :id, :name, { include_blank: true }, { class: 'form-control' }) %>
           <% end %>
         </div>
       </div>
