@@ -34,20 +34,6 @@ module Spree
         end
       end
 
-      def product_details_form
-        @sale_units = Spree::SaleUnit.order(:name)
-        @countries = Spree::Country.all
-      end
-
-      def product_details_update
-        details = product_details
-        @tmp = details
-
-        product_ids = Spree::BulkProductEditItem.where(bulk_product_edit_id: params[:bulk_product_edit_id]).pluck(:product_id)
-        @products = Spree::Product.where(id: product_ids)
-        render 'tmp'
-      end
-
       private
 
       def load_bulk_product_edit

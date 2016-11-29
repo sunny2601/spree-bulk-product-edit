@@ -17,8 +17,8 @@
       <% end if can?(:admin, Spree::BulkProductEditItem) %>
 
       <%= content_tag :li, class: ('active' if current == :product_details) do %>
-          <%= link_to_with_icon 'pushpin', Spree.t(:product_details), product_details_admin_bulk_product_edit_bulk_product_edit_items_path(@bulk_product_edit) %>
-      <% end if can?(:admin, Spree::BulkProductEditItem) %>
+          <%= link_to_with_icon 'pushpin', Spree.t(:product_details), admin_bulk_product_edit_product_details_path(@bulk_product_edit) %>
+      <% end if can?(:admin, Spree::BulkProductEdit) %>
 
       <%= content_tag :li, class: ('active' if current == :product_properties) do %>
           <%= link_to_with_icon 'list-alt', Spree.t(:product_properties), admin_bulk_product_edit_bulk_product_edit_properties_path(@bulk_product_edit) %>
