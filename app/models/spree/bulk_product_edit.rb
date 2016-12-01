@@ -1,6 +1,17 @@
 module Spree
   class BulkProductEdit < Spree::Base
 
+    PRODUCT_DETAILS_FIELDNAMES = %w[
+      product_price sample_price available_on
+      discontinue_on
+      weight
+      height
+      width
+      depth
+      sale_unit_id
+      country_of_origin
+    ]
+
     has_many :bulk_product_edit_items
 
     has_many :bulk_product_edit_properties, dependent: :destroy, inverse_of: :bulk_product_edit

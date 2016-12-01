@@ -3,38 +3,41 @@ module Spree
     class BulkProductEditsController < ResourceController
 
       update.before :update_before
+      before_action :get_bulk_product_edit, only: [:product_details, :apply_updates, :update_products]
 
       def index
         respond_with(@collection)
       end
 
       def product_details
-        @bulk_product_edit = Spree::BulkProductEdit.find(params[:bulk_product_edit_id])
+        # @bulk_product_edit = Spree::BulkProductEdit.find(params[:bulk_product_edit_id])
         @sale_units = Spree::SaleUnit.order(:name)
         @countries = Spree::Country.all
       end
 
-      # def product_details_update
-      #   details = ???
-      #   @tmp = details
-      #
-      #   @products = products
-      #   render 'tmp'
-      # end
+      def apply_updates
+        @details = extract_product_details
+        @properties = @bulk_product_edit.properties
+      end
 
-      # def product_properties_update
-
-      #   @tmp = self.properties
-      #
-      #   @products = products
-      #   render 'tmp'
-      # end
+      def update_products
+        # @bulk_product_edit = Spree::BulkProductEdit.find(params[:bulk_product_edit_id])
+        @products = products
+        @properties = @bulk_product_edit.properties
+        render 'tmp'
+      end
 
       private
 
-      # def after_update_path_for(resource)
-      #   edit_admin_bulk_product_edit_path(resource)
-      # end
+      def get_bulk_product_edit
+        @bulk_product_edit = Spree::BulkProductEdit.find(params[:bulk_product_edit_id])
+      end
+
+      def location_after_save
+        return admin_bulk_product_edit_product_details_path(@bulk_product_edit) if params['update_product_details'].present?
+        return admin_bulk_product_edit_bulk_product_edit_properties_path(@bulk_product_edit) if params['update_product_properties'].present?
+        return edit_admin_bulk_product_edit_path(@bulk_product_edit)
+      end
 
       def permitted_resource_params
         params.require(:bulk_product_edit)
@@ -68,22 +71,13 @@ module Spree
         Spree::Product.where(id: product_ids)
       end
 
-      # def details
-      #   details = {}
-      #   details[:]
-      #
-      #     'product_price'] = params[:product_price] if is_number? params[:product_price]
-      #     details['sample_price'] = params[:sample_price] if is_number? params[:sample_price]
-      #     details['available_on'] = Date.strptime(params[:available_on], '%Y/%m/%d').to_time unless params[:available_on].nil?
-      #     details['discontinue_on'] = Date.strptime(params[:discontinue_on], '%Y/%m/%d').to_time unless params[:discontinue_on].blank?
-      #     details['weight'] = params[:weight] if is_number? params[:weight]
-      #     details['height'] = params[:height] if is_number? params[:height]
-      #     details['width'] = params[:width] if is_number? params[:width]
-      #     details['depth'] = params[:depth] if is_number? params[:depth]
-      #     details['sale_unit_id'] = params[:sale_unit_id] unless params[:sale_unit_id].blank?
-      #     details['country_of_origin'
-      #   end
-      # end
+      def extract_product_details
+        details = {}
+        Spree::BulkProductEdit::PRODUCT_DETAILS_FIELDNAMES.each do |fieldname|
+          details[fieldname] = @bulk_product_edit.send(fieldname.to_sym) if @bulk_product_edit.send(fieldname.to_sym).present?
+        end
+        details
+      end
 
     end
   end

@@ -2,6 +2,7 @@
 
 <%= form_for( [:admin, @bulk_product_edit] )do |f| %>
   <div data-hook="admin_bulk_product_edit_form_fields">
+    <%= hidden_field_tag 'update_product_details', 1 %>
 
     <div class="row">
 

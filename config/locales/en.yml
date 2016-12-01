@@ -7,6 +7,8 @@ en:
     bulk_product_edits: 'Bulk Product Edits'
     select_products_by_taxon: 'Select Products by Taxon'
     select_products_by_sku: 'Select Products by SKU'
+    apply_changes: 'Apply Changes to Products'
+    apply: 'Apply'
     enter_product_skus: 'Enter Comma-Separated List of Product SKUs'
     product_price: 'Product Price'
     sample_price: 'Sample Price'
