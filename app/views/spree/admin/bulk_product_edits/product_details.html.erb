@@ -6,7 +6,38 @@
 
     <div class="row">
 
+      <div class="col-md-12">
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <%= f.field_container :clear_details, class: [''] do %>
+                <%= f.label :clear_details, value: true do %>
+                    <%= f.radio_button :clear_details, true %>
+                    &nbsp; Clear all details before adding only the values indicated here
+                <% end %><br>
+                <%= f.label :clear_details, value: false do %>
+                    <%= f.radio_button :clear_details, false %>
+                    &nbsp; Leave existing details and add or update the values indicated here
+                <% end %>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="row">
+
       <div class="col-md-4">
+        <div data-hook="admin_bulk_product_edit_form_master_price">
+          <%= f.field_container :master_price, class: ['form-group'] do %>
+              <%= f.label :master_price, Spree.t(:master_price) %>
+              <%= f.text_field :master_price, class: 'form-control' %>
+          <% end %>
+        </div>
+
         <div data-hook="admin_bulk_product_edit_form_product_price">
           <%= f.field_container :product_price, class: ['form-group'] do %>
               <%= f.label :product_price, Spree.t(:product_price) %>

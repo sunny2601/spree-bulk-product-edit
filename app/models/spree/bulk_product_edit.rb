@@ -2,7 +2,10 @@ module Spree
   class BulkProductEdit < Spree::Base
 
     PRODUCT_DETAILS_FIELDNAMES = %w[
-      product_price sample_price available_on
+      master_price
+      product_price
+      sample_price
+      available_on
       discontinue_on
       weight
       height

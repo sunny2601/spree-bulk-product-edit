@@ -2,6 +2,28 @@
 
 <%= form_for @bulk_product_edit, url: admin_bulk_product_edit_url(@bulk_product_edit), method: :put do |f| %>
     <%= hidden_field_tag 'update_product_properties', 1 %>
+
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <%= f.field_container :clear_properties, class: [''] do %>
+                <%= f.label :clear_properties, value: true do %>
+                    <%= f.radio_button :clear_properties, true %>
+                    &nbsp; Clear all properties before adding only the values indicated here
+                <% end %><br>
+                <%= f.label :clear_properties, value: false do %>
+                    <%= f.radio_button :clear_properties, false %>
+                    &nbsp; Leave existing properties and add or update the values indicated here
+                <% end %>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <fieldset>
       <div id="prototypes" data-hook></div>
 

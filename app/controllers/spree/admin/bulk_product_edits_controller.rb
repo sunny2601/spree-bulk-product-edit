@@ -17,13 +17,13 @@ module Spree
 
       def apply_updates
         @details = extract_product_details
-        @properties = @bulk_product_edit.properties
+        @properties = @bulk_product_edit.bulk_product_edit_properties
       end
 
       def update_products
         # @bulk_product_edit = Spree::BulkProductEdit.find(params[:bulk_product_edit_id])
         @products = products
-        @properties = @bulk_product_edit.properties
+        @properties = @bulk_product_edit.bulk_product_edit_properties
         render 'tmp'
       end
 
@@ -41,8 +41,9 @@ module Spree
 
       def permitted_resource_params
         params.require(:bulk_product_edit)
-            .permit(:id, :name, :product_price, :sample_price, :available_on, :discontinue_on,
-                    :weight, :height, :width, :depth, :sale_unit_id, :country_of_origin, bulk_product_edit_properties_attributes: [:id, :property_name, :value])
+            .permit(:id, :name, :master_price, :product_price, :sample_price, :available_on, :discontinue_on,
+                    :weight, :height, :width, :depth, :sale_unit_id, :country_of_origin, :clear_details, :clear_properties,
+                    bulk_product_edit_properties_attributes: [:id, :property_name, :value])
       end
 
       def collection
@@ -74,8 +75,21 @@ module Spree
       def extract_product_details
         details = {}
         Spree::BulkProductEdit::PRODUCT_DETAILS_FIELDNAMES.each do |fieldname|
-          details[fieldname] = @bulk_product_edit.send(fieldname.to_sym) if @bulk_product_edit.send(fieldname.to_sym).present?
+          details[fieldname.to_sym] = @bulk_product_edit.send(fieldname.to_sym) if @bulk_product_edit.send(fieldname.to_sym).present?
         end
+
+        if details[:sale_unit_id].present?
+          details[:sale_unit] = Spree::SaleUnit.find(details[:sale_unit_id]).name
+          details.delete(:sale_unit_id)
+        end
+
+        if details[:country_of_origin].present?
+          details[:country_of_origin] = Spree::Country.find(details[:country_of_origin]).name
+        end
+
+        # puts '&'*120
+        # puts details
+
         details
       end
 
