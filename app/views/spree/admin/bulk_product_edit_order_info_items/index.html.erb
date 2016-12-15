@@ -1,0 +1,65 @@
+<style type="text/css">
+  #admin_bulk_product_edit_order_info_items_table .name {
+    min-width: 300px;
+  }
+</style>
+
+
+<%= render 'spree/admin/shared/bulk_product_edits_tabs', current: :ordering_information %>
+
+<div data-hook="admin_bulk_product_edit_order_info_items" class="row">
+  <%= form_for @bulk_product_edit, url: admin_bulk_product_edit_path(@bulk_product_edit), method: :put do |f| %>
+
+      <%= hidden_field_tag 'update_ordering_information', 1 %>
+
+      <div class="row">
+        <div class="col-md-12">
+
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <%= f.field_container :clear_ordering_information, class: [''] do %>
+                  <%= f.label :clear_ordering_information, value: true do %>
+                      <%= f.radio_button :clear_ordering_information, true %>
+                      &nbsp; Clear all ordering information before adding only the values indicated here
+                  <% end %><br>
+                  <%= f.label :clear_ordering_information, value: false do %>
+                      <%= f.radio_button :clear_ordering_information, false %>
+                      &nbsp; Leave existing ordering information and add or update the values indicated here
+                  <% end %>
+              <% end %>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <table class="table" id="admin_bulk_product_edit_order_info_items_table" data-hook>
+        <thead>
+          <tr data-hook="product_order_info_items_header">
+            <th class="select"><%= Spree.t(:select) %></th>
+            <th class="name"><%= Spree.t(:name) %></th>
+            <th class="description"><%= Spree.t(:description) %></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @order_info_items.each do |item| %>
+              <tr>
+                <td class="select"><%= check_box_tag 'bulk_product_edit[order_info_item_ids][]', item.id, @bulk_product_edit_order_info_item_ids.include?(item.id), {:id => "product_order_info_item_ids_#{item.id}"} %></td>
+                <td class="name"><%= item.name %></td>
+                <td class="description"><%= item.description.html_safe %></td>
+              </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div class="form-actions" data-hook="buttons">
+        <%= button Spree.t('actions.update'), 'refresh', 'submit', {class: 'btn-success'} %>
+        <span class="or"><%= Spree.t(:or) %></span>
+        <% icon = content_tag(:span, '', class: 'icon icon-delete') %>
+        <% text = icon + ' ' + Spree.t(:reset_selection) %>
+        <%= button_tag(text.html_safe, {type: 'reset', class: 'btn btn-default'}) %>
+      </div>
+
+  <% end %>
+</div>

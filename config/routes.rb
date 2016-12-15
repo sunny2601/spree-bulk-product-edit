@@ -5,7 +5,7 @@ Spree::Core::Engine.routes.draw do
       get 'product_details', to: 'bulk_product_edits#product_details'
       post 'product_details', to: 'bulk_product_edits#product_details_update'
 
-      get 'apply_updates', to: 'bulk_product_edits#apply_updates'
+      get 'review_updates', to: 'bulk_product_edits#review_updates'
       post 'update_products', to: 'bulk_product_edits#update_products'
 
       resources :bulk_product_edit_properties do
@@ -20,6 +20,8 @@ Spree::Core::Engine.routes.draw do
           get 'select_by_sku', to: 'bulk_product_edit_items#index', defaults: { select_by: 'sku' }
         end
       end
+
+      resources :bulk_product_edit_order_info_items, only: [:index]
 
     end
   end

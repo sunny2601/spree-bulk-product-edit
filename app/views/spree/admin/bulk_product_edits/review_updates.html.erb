@@ -1,0 +1,110 @@
+<%= render partial: 'spree/admin/shared/bulk_product_edits_tabs', locals: { current: :review_updates } %>
+
+<div class="row bulk_product_edit_overview">
+  <div class="col-md-12">
+
+    <div class="well well-lg">
+      <p>The following updates will be applied to the selected products</p>
+    </div>
+
+    <% if @details.any? %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Product Details</h3>
+        </div>
+
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Value</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <% @details.each do |key, value| %>
+              <tr>
+                <td><%= Spree.t(key) %></td>
+                <td><%= value %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+
+    <% if @order_info_items.any? %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Ordering Information</h3>
+        </div>
+
+        <div class="panel-body">
+          <% if @bulk_product_edit.clear_ordering_information %>
+            <p>Existing ordering information will be deleted from the selected products, and the following items will be added:</p>
+          <% else %>
+            <p>Existing ordering information will be retained for each selected product, and the following items will be added or changed:</p>
+          <% end %>
+        </div>
+
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Description</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <% @order_info_items.each do |item| %>
+              <tr>
+                <td><%= item.description.html_safe %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+
+    <% if @properties.any? %>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Product Properties</h3>
+        </div>
+
+        <div class="panel-body">
+          <% if @bulk_product_edit.clear_properties %>
+            <p>Existing properties will be deleted from the selected products, and the following properties will be added:</p>
+          <% else %>
+            <p>Existing properties will be retained for each selected product, and the following properties will be added or changed:</p>
+          <% end %>
+        </div>
+
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Value</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <% @properties.each do |property| %>
+              <tr>
+                <td><%= property.property.presentation %></td>
+                <td><%= property.value %></td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+
+  </div>
+
+</div>
+
+<%= form_tag admin_bulk_product_edit_update_products_path(@bulk_product_edit) do %>
+<div class="form-actions" data-hook="buttons">
+  <%= button Spree.t(:apply), 'refresh', 'submit', {class: 'btn-success'} %>
+</div>
+<% end %>

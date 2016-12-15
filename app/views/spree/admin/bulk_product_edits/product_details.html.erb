@@ -6,30 +6,6 @@
 
     <div class="row">
 
-      <div class="col-md-12">
-
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <%= f.field_container :clear_details, class: [''] do %>
-                <%= f.label :clear_details, value: true do %>
-                    <%= f.radio_button :clear_details, true %>
-                    &nbsp; Clear all details before adding only the values indicated here
-                <% end %><br>
-                <%= f.label :clear_details, value: false do %>
-                    <%= f.radio_button :clear_details, false %>
-                    &nbsp; Leave existing details and add or update the values indicated here
-                <% end %>
-            <% end %>
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <div class="row">
-
       <div class="col-md-4">
         <div data-hook="admin_bulk_product_edit_form_master_price">
           <%= f.field_container :master_price, class: ['form-group'] do %>
@@ -61,10 +37,10 @@
           <% end %>
         </div>
 
-        <div data-hook="admin_bulk_product_edit_form_discontinue_on">
-          <%= f.field_container :discontinue_on, class: ['form-group'] do %>
-              <%= f.label :discontinue_on, Spree.t(:discontinue_on) %>
-              <%= f.text_field :discontinue_on, class: 'datepicker form-control' %>
+        <div data-hook="admin_bulk_product_edit_form_expires_on">
+          <%= f.field_container :expires_on, class: ['form-group'] do %>
+              <%= f.label :expires_on, Spree.t(:expires_on) %>
+              <%= f.text_field :expires_on, class: 'datepicker form-control' %>
           <% end %>
         </div>
       </div>

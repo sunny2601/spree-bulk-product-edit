@@ -2,29 +2,35 @@ module Spree
   module Admin
     class BulkProductEditsController < ResourceController
 
+      include ProductHelper
+
       update.before :update_before
-      before_action :get_bulk_product_edit, only: [:product_details, :apply_updates, :update_products]
+      before_action :get_bulk_product_edit, only: [:product_details, :review_updates, :update_products]
 
       def index
         respond_with(@collection)
       end
 
       def product_details
-        # @bulk_product_edit = Spree::BulkProductEdit.find(params[:bulk_product_edit_id])
         @sale_units = Spree::SaleUnit.order(:name)
         @countries = Spree::Country.all
       end
 
-      def apply_updates
+      def review_updates
         @details = extract_product_details
+        @order_info_items = @bulk_product_edit.order_info_items
         @properties = @bulk_product_edit.bulk_product_edit_properties
       end
 
       def update_products
-        # @bulk_product_edit = Spree::BulkProductEdit.find(params[:bulk_product_edit_id])
-        @products = products
-        @properties = @bulk_product_edit.bulk_product_edit_properties
-        render 'tmp'
+        products.each do |product|
+          set_product_details product
+          set_product_ordering_information product
+          set_product_properties product
+        end
+
+        flash[:success] = 'Products updated'
+        redirect_to location_after_save
       end
 
       private
@@ -35,15 +41,19 @@ module Spree
 
       def location_after_save
         return admin_bulk_product_edit_product_details_path(@bulk_product_edit) if params['update_product_details'].present?
+        return admin_bulk_product_edit_bulk_product_edit_order_info_items_path(@bulk_product_edit) if params['update_ordering_information'].present?
         return admin_bulk_product_edit_bulk_product_edit_properties_path(@bulk_product_edit) if params['update_product_properties'].present?
+
         return edit_admin_bulk_product_edit_path(@bulk_product_edit)
       end
 
       def permitted_resource_params
         params.require(:bulk_product_edit)
-            .permit(:id, :name, :master_price, :product_price, :sample_price, :available_on, :discontinue_on,
-                    :weight, :height, :width, :depth, :sale_unit_id, :country_of_origin, :clear_details, :clear_properties,
-                    bulk_product_edit_properties_attributes: [:id, :property_name, :value])
+            .permit(:id, :name, :master_price, :product_price, :sample_price, :available_on, :expires_on,
+                :weight, :height, :width, :depth, :sale_unit_id, :country_of_origin,
+                :clear_details, :clear_ordering_information, :clear_properties,
+                order_info_item_ids: [],
+                bulk_product_edit_properties_attributes: [:id, :property_name, :value])
       end
 
       def collection
@@ -87,10 +97,50 @@ module Spree
           details[:country_of_origin] = Spree::Country.find(details[:country_of_origin]).name
         end
 
-        # puts '&'*120
-        # puts details
-
         details
+      end
+
+      def set_product_details product
+        product.master.price = @bulk_product_edit.master_price if @bulk_product_edit.master_price.present?
+
+        product.variants.each do |variant|
+          if variant_is_sample(variant)
+            variant.price = @bulk_product_edit.sample_price if @bulk_product_edit.sample_price.present?
+          else
+            variant.price = @bulk_product_edit.product_price if @bulk_product_edit.product_price.present?
+          end
+
+          variant.weight = @bulk_product_edit.weight if @bulk_product_edit.weight.present?
+          variant.height = @bulk_product_edit.height if @bulk_product_edit.height.present?
+          variant.width = @bulk_product_edit.width if @bulk_product_edit.width.present?
+          variant.depth = @bulk_product_edit.depth if @bulk_product_edit.depth.present?
+
+          variant.save!
+        end
+
+        product.available_on = @bulk_product_edit.available_on if @bulk_product_edit.available_on.present?
+        product.expires_on = @bulk_product_edit.expires_on if @bulk_product_edit.expires_on.present?
+
+        product.sale_unit_id = @bulk_product_edit.sale_unit_id if @bulk_product_edit.sale_unit_id.present?
+        product.country_of_origin = @bulk_product_edit.country_of_origin if @bulk_product_edit.country_of_origin.present?
+
+        product.save!
+      end
+
+      def set_product_ordering_information product
+        product.order_info_items = [] if @bulk_product_edit.clear_ordering_information
+        @bulk_product_edit.order_info_items.each do |item|
+          product.order_info_items << item
+        end
+        product.save!
+      end
+
+      def set_product_properties product
+        product.properties = [] if @bulk_product_edit.clear_properties
+        @bulk_product_edit.bulk_product_edit_properties.each do |bulk_product_edit_property|
+          product.set_property(bulk_product_edit_property.property.name, bulk_product_edit_property.value)
+        end
+        product.save!
       end
 
     end

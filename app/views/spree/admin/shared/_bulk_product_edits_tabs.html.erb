@@ -20,12 +20,16 @@
           <%= link_to_with_icon 'pushpin', Spree.t(:product_details), admin_bulk_product_edit_product_details_path(@bulk_product_edit) %>
       <% end if can?(:admin, Spree::BulkProductEdit) %>
 
+      <%= content_tag :li, class: ('active' if current == :ordering_information) do %>
+          <%= link_to_with_icon 'info-sign', Spree.t(:ordering_information), admin_bulk_product_edit_bulk_product_edit_order_info_items_path(@bulk_product_edit) %>
+      <% end if can?(:admin, Spree::BulkProductEdit) %>
+
       <%= content_tag :li, class: ('active' if current == :product_properties) do %>
           <%= link_to_with_icon 'list-alt', Spree.t(:product_properties), admin_bulk_product_edit_bulk_product_edit_properties_path(@bulk_product_edit) %>
       <% end if can?(:admin, Spree::BulkProductEdit) %>
 
-      <%= content_tag :li, class: ('active' if current == :apply_updates) do %>
-          <%= link_to_with_icon 'ok', Spree.t(:apply_changes), admin_bulk_product_edit_apply_updates_path(@bulk_product_edit) %>
+      <%= content_tag :li, class: ('active' if current == :review_updates) do %>
+          <%= link_to_with_icon 'ok', Spree.t(:apply_changes), admin_bulk_product_edit_review_updates_path(@bulk_product_edit) %>
       <% end if can?(:admin, Spree::BulkProductEdit) %>
     </ul>
 <% end %>

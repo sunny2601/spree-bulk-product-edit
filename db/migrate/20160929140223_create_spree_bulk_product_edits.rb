@@ -6,14 +6,14 @@ class CreateSpreeBulkProductEdits < ActiveRecord::Migration
       t.decimal :product_price, precision: 8, scale: 2
       t.decimal :sample_price, precision: 8, scale: 2
       t.datetime :available_on
-      t.datetime :discontinue_on
+      t.datetime :expires_on
       t.decimal :weight, precision: 8, scale: 2
       t.decimal :height, precision: 8, scale: 2
       t.decimal :width, precision: 8, scale: 2
       t.decimal :depth, precision: 8, scale: 2
       t.integer :sale_unit_id
       t.integer :country_of_origin
-      t.boolean :clear_details, default: false
+      t.boolean :clear_ordering_information, default: false
       t.boolean :clear_properties, default: false
       t.timestamps null: false
     end
