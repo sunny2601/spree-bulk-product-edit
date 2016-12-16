@@ -22,7 +22,7 @@ module Spree
         Spree::BulkProductEditItem.delete_all(bulk_product_edit_id: params[:bulk_product_edit_id])
         params[:product_ids].each do |id|
           Spree::BulkProductEditItem.create({ product_id: id, bulk_product_edit_id: params[:bulk_product_edit_id] })
-        end
+        end if params[:product_ids].present?
 
         flash[:success] = 'Product list updated'
 
