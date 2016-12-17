@@ -130,7 +130,7 @@ module Spree
       def set_product_ordering_information product
         product.order_info_items = [] if @bulk_product_edit.clear_ordering_information
         @bulk_product_edit.order_info_items.each do |item|
-          product.order_info_items << item
+          product.order_info_items << item unless product.order_info_items.include? item
         end
         product.save!
       end
