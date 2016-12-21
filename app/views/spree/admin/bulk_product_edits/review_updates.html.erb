@@ -4,7 +4,28 @@
   <div class="col-md-12">
 
     <div class="well well-lg">
-      <p>The following updates will be applied to the selected products</p>
+      The following updates will be applied to the selected products:
+    </div>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Selected Products</h3>
+      </div>
+      <div class="panel-body">
+      <% if @products.any? %>
+            <div class="list-group">
+              <% @products.each do |product| %>
+                  <a href="/products/<%= product.slug %>" target="_blank" class="list-group-item">
+                    <%= mini_image product %>
+                    <h4 class="list-group-item-heading"><%= product.name %></h4>
+                    <p class="list-group-item-text"><%= product.description %></p>
+                  </a>
+              <% end %>
+            </div>
+      <% else %>
+          <p>No products</p>
+      <% end %>
+      </div>
     </div>
 
     <% if @details.any? %>

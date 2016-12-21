@@ -1,3 +1,8 @@
 #admin_bulk_product_edit_order_info_items_table .name {
     min-width: 320px;
 }
+
+.bulk_product_edit_overview .list-group .list-group-item img {
+    float: left;
+    margin: 0 15px 0 0;
+}

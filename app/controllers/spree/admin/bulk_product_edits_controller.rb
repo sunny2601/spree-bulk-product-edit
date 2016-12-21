@@ -17,6 +17,7 @@ module Spree
       end
 
       def review_updates
+        @products = products
         @details = extract_product_details
         @order_info_items = @bulk_product_edit.order_info_items
         @properties = @bulk_product_edit.bulk_product_edit_properties
