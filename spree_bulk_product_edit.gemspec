@@ -2,7 +2,7 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_bulk_product_edit'
-  s.version     = '0.0.4'
+  s.version     = '0.0.5'
   s.summary     = 'Edit multiple products at once.'
   s.description = 'Edit multiple products at once.'
   s.required_ruby_version = '>= 2.0.0'
