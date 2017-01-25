@@ -2,6 +2,10 @@
     min-width: 320px;
 }
 
+.bulk_product_edit_overview .list-group .list-group-item {
+    overflow: auto;
+}
+
 .bulk_product_edit_overview .list-group .list-group-item img {
     float: left;
     margin: 0 15px 0 0;
