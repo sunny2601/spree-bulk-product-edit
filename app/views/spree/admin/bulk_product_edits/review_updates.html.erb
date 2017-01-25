@@ -3,6 +3,9 @@
 <div class="row bulk_product_edit_overview">
   <div class="col-md-12">
 
+    <div id="notice"></div>
+
+
     <div class="well well-lg">
       The following updates will be applied to the selected products:
     </div>
@@ -124,8 +127,12 @@
 
 </div>
 
-<%= form_tag admin_bulk_product_edit_update_products_path(@bulk_product_edit) do %>
+<%#= form_tag admin_bulk_product_edit_update_products_path(@bulk_product_edit) do %>
+<!--<div class="form-actions" data-hook="buttons">-->
+  <%#= button Spree.t(:apply), 'refresh', 'submit', { class: 'btn-success' } %>
+<!--</div>-->
+<%# end %>
+
 <div class="form-actions" data-hook="buttons">
-  <%= button Spree.t(:apply), 'refresh', 'submit', {class: 'btn-success'} %>
+  <%= button_link_to Spree.t(:apply), '', { icon: 'refresh', class: 'btn btn-success', id: 'btn-apply-updates' } %>
 </div>
-<% end %>

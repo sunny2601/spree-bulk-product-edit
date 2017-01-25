@@ -6,7 +6,7 @@ Spree::Core::Engine.routes.draw do
       post 'product_details', to: 'bulk_product_edits#product_details_update'
 
       get 'review_updates', to: 'bulk_product_edits#review_updates'
-      post 'update_products', to: 'bulk_product_edits#update_products'
+      get 'update_products', to: 'bulk_product_edits#update_products'
 
       resources :bulk_product_edit_properties do
         collection do

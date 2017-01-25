@@ -3,6 +3,8 @@ module Spree
     class BulkProductEditsController < ResourceController
 
       include ProductHelper
+      include ActionController::Live
+      require 'json'
 
       update.before :update_before
       before_action :get_bulk_product_edit, only: [:product_details, :review_updates, :update_products]
@@ -30,8 +32,19 @@ module Spree
           set_product_properties product
         end
 
-        flash[:success] = 'Products updated'
-        redirect_to location_after_save
+        # flash[:success] = 'Products updated'
+        # redirect_to location_after_save
+
+        response.headers['Content-Type'] = 'text/event-stream'
+
+        item = { status: 'Products updated' }
+        response.stream.write 'event: update'+$/
+        response.stream.write 'data: '+item.to_json+$/+$/
+
+      rescue IOError
+        # client disconnected.
+      ensure
+        response.stream.close
       end
 
       private
