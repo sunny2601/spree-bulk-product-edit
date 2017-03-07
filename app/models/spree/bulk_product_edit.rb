@@ -15,7 +15,7 @@ module Spree
       country_of_origin
     ]
 
-    has_many :bulk_product_edit_items
+    has_many :bulk_product_edit_items, dependent: :destroy
 
     has_many :bulk_product_edit_properties, dependent: :destroy, inverse_of: :bulk_product_edit
     has_many :properties, through: :bulk_product_edit_properties
