@@ -51,7 +51,7 @@ module Spree
             attrs = p.attributes
             attrs[:sku] = p.master.sku
             attrs[:selected] = selected
-            attrs[:thumbnail] = "https://dywimages.s3.amazonaws.com/spree/images/#{p.master.images[0].id}/mini/#{p.master.images[0].attachment_file_name}.?#{rand(999999999)}"
+            attrs[:thumbnail] = "https://dywimages.s3.amazonaws.com/spree/images/#{p.master.images[0].id}/mini/#{p.master.images[0].attachment_file_name}?#{rand(999999999)}"
             out << attrs
           end
           out
