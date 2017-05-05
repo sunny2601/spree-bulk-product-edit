@@ -85,6 +85,7 @@ $(function(){
     });
   <% else %>
     $('#product_skus').change(function(){
+      $(this).val($(this).val().replace(/\s+/g, ','));
       getProductData('sku', $(this).val().split(','));
     });
   <% end %>
