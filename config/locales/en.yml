@@ -16,3 +16,7 @@ en:
     country_of_origin: 'Country of Origin'
     saving: 'Saving'
     ordering_information: 'Ordering Information'
+
+    bulk_product_spreadsheet_edits: 'Bulk Product Edits by Spreadhsheet'
+    bulk_product_spreadsheet_edit: 'Bulk Product Edit by Spreadhsheet'
+    edit_type: 'Edit Type'

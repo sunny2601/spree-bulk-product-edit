@@ -24,6 +24,8 @@ Spree::Core::Engine.routes.draw do
       resources :bulk_product_edit_order_info_items, only: [:index]
 
     end
+
+    resources :bulk_product_spreadsheet_edits
   end
 
   namespace :api do
