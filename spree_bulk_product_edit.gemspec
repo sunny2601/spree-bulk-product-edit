@@ -2,9 +2,10 @@
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = 'spree_bulk_product_edit'
-  s.version     = '0.0.9'
+  s.version     = '0.1.0'
   s.summary     = 'Edit multiple products at once.'
-  s.description = 'Edit multiple products at once.'
+  s.description = 'Edit multiple products at once, either by selecting products and applying changes interactively,
+    or by uploading a spreadsheet containing the product identifiers and new data.'
   s.required_ruby_version = '>= 2.0.0'
 
   s.author    = 'Edwin Horneij'
@@ -17,6 +18,8 @@ Gem::Specification.new do |s|
   s.requirements << 'none'
 
   s.add_dependency 'spree_core', '~> 3.0.4'
+  s.add_dependency 'roo'
+  s.add_dependency 'roo-xls'
 
   s.add_development_dependency 'capybara', '~> 2.4'
   s.add_development_dependency 'coffee-rails'

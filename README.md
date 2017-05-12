@@ -1,7 +1,8 @@
 Spree Bulk Product Edit
 ====================
 
-Edit multiple products at once.
+Edit multiple products at once, either by selecting products and applying changes interactively, 
+or by uploading a spreadsheet containing the product identifiers and new data.
 
 Installation
 ------------
@@ -36,4 +37,4 @@ Simply add this require statement to your spec_helper:
 require 'spree_bulk_product_edit/factories'
 ```
 
-Copyright (c) 2016 Astek Wallcovering, Inc., released under the New BSD License
+Copyright (c) 2017 Astek Wallcovering, Inc., released under the New BSD License

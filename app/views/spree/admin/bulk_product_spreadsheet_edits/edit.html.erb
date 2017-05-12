@@ -1,0 +1,18 @@
+<%= render partial: 'spree/admin/shared/error_messages', locals: { target: @bulk_product_spreadsheet_edit } %>
+
+<% content_for :page_title do %>
+    <%= link_to Spree.t(:bulk_product_spreadsheet_edits), admin_bulk_product_spreadsheet_edits_path %> / <%= @bulk_product_spreadsheet_edit.name %>
+<% end %>
+
+<%= render partial: 'spree/admin/shared/error_messages', locals: { target: @bulk_product_spreadsheet_edit } %>
+
+<%= form_for( [:admin, @bulk_product_spreadsheet_edit], html: { multipart: true } )do |f| %>
+    <fieldset data-hook="new_bulk_product_spreadsheet_edit">
+      <%= render partial: 'form', locals: { f: f } %>
+    </fieldset>
+    <% if @bulk_product_spreadsheet_edit.state == Spree::BulkProductSpreadsheetEdit::STATE_PENDING %>
+        <div class="form-actions">
+          <%= render partial: 'spree/admin/shared/edit_resource_links' %>
+        </div>
+    <% end %>
+<% end %>
