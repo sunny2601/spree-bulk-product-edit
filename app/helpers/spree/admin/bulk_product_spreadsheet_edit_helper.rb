@@ -57,13 +57,12 @@ module Spree
 
       def process_worksheet
         return if @worksheet.nil?
-        ActiveRecord::Base.transaction do
-          case self.edit_type
-            when 'brewster_sale_units_and_pricing'
-              process_brewster_sale_units_and_pricing
-            when 'brewster_expiration_dates'
-              process_brewster_expiration_dates
-          end
+
+        case self.edit_type
+          when 'brewster_sale_units_and_pricing'
+            process_brewster_sale_units_and_pricing
+          when 'brewster_expiration_dates'
+            process_brewster_expiration_dates
         end
       end
 
