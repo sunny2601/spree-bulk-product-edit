@@ -1,0 +1,55 @@
+<% content_for :page_title do %>
+    <%= Spree.t(:bulk_product_spreadsheet_edits) %>
+<% end %>
+
+<% content_for :page_actions do %>
+    <%= button_link_to Spree.t(:new) + ' ' + Spree.t(:bulk_product_spreadsheet_edit), new_object_url, { :class => 'btn-success', :icon => 'add', 'data-update' => 'new_bulk_product_spreadsheet_edit', :id => 'new_bulk_product_spreadsheet_edit_link' } %>
+<% end %>
+
+<%= render partial: 'spree/admin/shared/index_table_options', locals: { collection: @collection } %>
+
+<% if @collection.any? %>
+    <table class="table" id='bulk_product_spreadsheet_edits' data-hook>
+      <thead>
+      <tr data-hook="bulk_product_spreadsheet_edits_header">
+        <th class="name"><%= Spree.t(:name) %></th>
+        <th class="edit_type"><%= Spree.t(:edit_type) %></th>
+        <th class="spreadsheet_file"><%= Spree.t(:spreadsheet_file) %></th>
+        <th class="status"><%= Spree.t(:status) %></th>
+        <th class="created_at"><%= Spree.t(:created_at) %></th>
+        <th class="completed_at"><%= Spree.t(:completed_at) %></th>
+        <th class="actions"></th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <% @collection.each do |bulk_product_spreadsheet_edit| %>
+          <tr>
+            <td class="name"><%= bulk_product_spreadsheet_edit.name %></td>
+            <td class="edit_type"><%= bulk_product_spreadsheet_edit.edit_type.titleize %></td>
+            <td class="spreadsheet_file"><%= bulk_product_spreadsheet_edit.spreadsheet_file_file_name %></td>
+            <td class="status"><span class="label label-<%= bulk_product_spreadsheet_edit.state %>"><%= bulk_product_spreadsheet_edit.state %></span></td>
+            <td class="created_at"><%= bulk_product_spreadsheet_edit.created_at.to_date %></td>
+            <td class="completed_at">
+              <% if bulk_product_spreadsheet_edit.state == Spree::BulkProductSpreadsheetEdit::STATE_COMPLETE %>
+                  <%= bulk_product_spreadsheet_edit.updated_at.to_date %>
+              <% end %>
+            </td>
+            <td class="actions actions-2 text-right">
+              <% if bulk_product_spreadsheet_edit.can_edit? %>
+                <%= link_to_edit(bulk_product_spreadsheet_edit, :no_text => true) %>
+                <%= link_to_delete(bulk_product_spreadsheet_edit, :no_text => true) %>
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% else %>
+    <div class="alert alert-info no-objects-found">
+      <%= Spree.t(:no_resource_found, resource: plural_resource_name(Spree::BulkProductSpreadsheetEdit)) %>,
+      <%= link_to Spree.t(:add_one), new_object_url %>!
+    </div>
+<% end %>
+
+<%= render partial: 'spree/admin/shared/index_table_options', locals: { collection: @collection } %>
