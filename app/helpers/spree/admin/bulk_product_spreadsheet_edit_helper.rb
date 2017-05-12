@@ -57,13 +57,12 @@ module Spree
 
       def process_worksheet
         return if @worksheet.nil?
-        ActiveRecord::Base.transaction do
-          case self.edit_type
-            when 'brewster_sale_units_and_pricing'
-              process_brewster_sale_units_and_pricing
-            when 'brewster_expiration_dates'
-              process_brewster_expiration_dates
-          end
+
+        case self.edit_type
+          when 'brewster_sale_units_and_pricing'
+            process_brewster_sale_units_and_pricing
+          when 'brewster_expiration_dates'
+            process_brewster_expiration_dates
         end
       end
 
@@ -153,7 +152,7 @@ module Spree
         else
           rows = res.to_hash
           product_property_id = OpenStruct.new(rows.first).id
-          sql = "UPDATE spree_product_properties SET value = '#{value}', updated_at = '#{Time.now}' WHERE id = #{product_property_id}"
+          sql = "UPDATE spree_product_properties SET value = '#{value}', updated_at = NOW() WHERE id = #{product_property_id}"
           ActiveRecord::Base.connection.execute(sql)
         end
       end
@@ -179,12 +178,12 @@ module Spree
       end
 
       def set_product_sale_unit product_id, sale_unit_id
-        sql = "UPDATE spree_products SET sale_unit_id = #{sale_unit_id}, updated_at = '#{Time.now}' WHERE id = #{product_id}"
+        sql = "UPDATE spree_products SET sale_unit_id = #{sale_unit_id}, updated_at = NOW() WHERE id = #{product_id}"
         ActiveRecord::Base.connection.execute(sql)
       end
 
       def set_product_expires_on product_id, expires_on
-        sql = "UPDATE spree_products SET expires_on = '#{expires_on}', updated_at = '#{Time.now}' WHERE id = #{product_id}"
+        sql = "UPDATE spree_products SET expires_on = '#{expires_on}', updated_at = NOW() WHERE id = #{product_id}"
         ActiveRecord::Base.connection.execute(sql)
       end
 
